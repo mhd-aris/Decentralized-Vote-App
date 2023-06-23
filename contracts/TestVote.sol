@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract Voting {
+contract TestVote {
     struct Candidate {
         uint256 id;
         string name;
@@ -11,7 +11,7 @@ contract Voting {
     }
 
     // uint256 public startTime;
-    // uint256 public endTime;
+    uint256 public endTime;
     uint256 public candidatesCount;
     address public owner;
 
@@ -21,16 +21,16 @@ contract Voting {
 
     event CandidateAdded(uint256 indexed id, string name);
     event VoteCast(address indexed voter, uint256 indexed candidateId);
-    // event VotingStarted(uint256 startTime, uint256 endTime);
+    event VotingStarted(uint256 startTime, uint256 endTime);
 
     constructor() {
         owner = msg.sender;
-        addCandidate("Aldi", "Some description about the candidate");
-        addCandidate("Taher", "Some description about the candidate");
+        addCandidate("Candidate 1", "deskripsi kandidat");
+        addCandidate("Candidate 2", "deskripsi kandidat");
     }
 
     // modifier onlyDuringVoting(){
-    //     require(block.timestamp >= startTime && block.timestamp <= endTime, "Voting is not currenly active");
+    //     require(block.timestamp <= endTime, "Voting is not currenly active");
     //     _;
     // }
 
@@ -56,16 +56,19 @@ contract Voting {
     // }
 
     // function startVoting (uint256 durationInSecond) public onlyOwner {
-        // require(startTime == 0, "Voting has already started");
-        // startTime = block.timestamp;
-        // endTime = startTime + durationInSecond;
+    //     require(startTime == 0, "Voting has already started");
+    //     startTime = block.timestamp;
+    //     endTime = startTime + durationInSecond;
 
-        // emit VotingStarted (startTime, 1688031349);
-
+    //     emit VotingStarted (startTime, 1688031349);
+        
     // }
 
-    function vote(uint256 _candidateId) public //onlyDuringVoting{
-        {
+    function getBlockTime() public view returns (uint256){
+        return block.timestamp;
+    }
+
+    function vote(uint256 _candidateId) public{
         // require(registeredVoters[msg.sender], "You are not registered to vote");
         require(!votedOrNot[msg.sender], "You have already voted");
         require(_candidateId > 0 && _candidateId <= candidatesCount, "Invalid candidate ID");
@@ -77,27 +80,7 @@ contract Voting {
         emit VoteCast(msg.sender, _candidateId);
     }
 
-    function getCandidate(uint256 _candidateId) public view returns(uint256, string memory, string memory, uint256) {
-        require(_candidateId > 0 && _candidateId <= candidatesCount, "Invalid Candidate Id");
-        Candidate memory candidate = candidates[_candidateId];
-        return(candidate.id, candidate.name, candidate.deskripsi, candidate.voteCount);
+    function getRemainingTime() public view returns (uint256) {
+            return endTime - block.timestamp;
     }
-
-    function getCandidateById(uint256 _candidateId) public view returns (string memory, string memory, uint256) {
-    require(_candidateId > 0 && _candidateId <= candidatesCount, "Invalid candidate ID");
-    Candidate memory candidate = candidates[_candidateId];
-    return (candidate.name, candidate.deskripsi, candidate.voteCount);
-    }
-
-    // function hashVoted(address _voter) public view returns (bool){
-    //     return votedOrNot[_voter];
-    // }
-
-    // function getRemainingTime() public view returns (uint256) {
-    //     if (block.timestamp <= endTime) {
-    //         return endTime - block.timestamp;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
 }

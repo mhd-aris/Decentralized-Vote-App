@@ -1,3 +1,14 @@
+# Decentralized Vote App
+### This app was a team project when we were learning about blockchain and web3 for an IT competition on campus.
+#### Here are the technology stacks we use:
+  - NextJS
+  - Tailwind CSS
+  - Web3JS
+  - Truffle
+  - Solidity
+  - Vercel ( Deployment )
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
